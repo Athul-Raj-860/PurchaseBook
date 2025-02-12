@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Book Details</title>
+<style>
+    /* Body styling with a gradient background */
+    body {
+        background: linear-gradient(135deg, #2f4b8b, #5c6bc0);
+        color: white;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Centered heading */
+    h1 {
+        text-align: center;
+        font-family: 'Times New Roman', Times, serif;
+        font-size: 3rem;
+        margin-top: 50px;
+        color: #ffca28;
+    }
+
+    /* Form container styling */
+    .BookAdd {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+    form {
+        background-color: #333;
+        text-align: left;
+        border-radius: 20px;
+        width: 400px;
+        padding: 50px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Label styling */
+    label {
+        font-size: 1rem;
+        color: #ffca28;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    /* Input fields styling */
+    input[type="text"],input[type="date"],textarea,input[type="file"] {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        font-size: 1rem;
+        background-color: #555;
+        color: white;
+    }
+
+    /* Focus effect on input fields */
+    input:focus, textarea:focus {
+        border-color: #ffca28;
+        outline: none;
+        box-shadow: 0 0 5px rgba(255, 202, 40, 0.5);
+    }
+
+    /* Image preview styling */
+    img {
+        width: 150px;
+        height: 150px;
+        display: none;
+        margin-top: 20px;
+        border-radius: 8px;
+        border: 2px solid #ffca28;
+    }
+
+    /* Button styling */
+    button {
+        background-color: #ffca28;
+        color: black;
+        font-family: 'Arial', Helvetica, sans-serif;
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        font-size: 1.1rem;
+        cursor: pointer;
+        border: none;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    /* Hover effect for button */
+    button:hover {
+        background-color: #f57c00;
+        transform: scale(1.05);
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        form {
+            width: 90%;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+</head>
+<body>
+<h1>Book Details</h1>
+<div class="BookAdd">
+    <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+        <label for="Name">BOOK NAME:</label>
+        <input type="text" name="Name" id="Name" placeholder="Book Name" required><br>
+
+        <label for="Author">Author :</label>
+        <input type="text" name="Author" id="Author" placeholder="Author" required><br>
+
+        <label for="Price">Price:</label>
+        <input type="text" name="Price" id="Price" placeholder="Price" required><br>
+
+        <label for="Description">Book Description:</label>
+        <textarea name="Description" id="Description" placeholder="Description" style="height:100px" required></textarea><br>
+
+        <label for="Edition">Edition:</label>
+        <input type="text" name="Edition" id="Edition" placeholder="Edition" required><br>
+
+        <label for="Publisher">Publisher:</label>
+        <input type="text" name="Publisher" id="Publisher" placeholder="Publisher" required><br>
+
+        <label for="Published">Published on:</label>
+        <input type="date" name="Published" id="Published" required><br>
+
+        <label for="Language">Language:</label>
+        <input type="text" name="Language" id="Language" placeholder="Language" required><br>
+
+        <label for="Pages">Pages:</label>
+        <input type="text" name="Pages" id="Pages" placeholder="No of Pages" required><br>
+
+        <label for="Image">Upload Image:</label>
+        <input type="file" accept="image/*" name="Image" id="Image" required>
+
+        <img id="output" style="display:none;">
+
+        <button type="submit">Upload</button>
+    </form>
+</div>
+
+<script>
+   // JavaScript to handle image preview
+    const imageUpload = document.getElementById('Image');
+    const previewImg = document.getElementById('output');
+
+    imageUpload.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewImg.style.display = 'block'; // Show the preview image
+            };
+            reader.readAsDataURL(file); // Read the file as a data URL
+        } else {
+            previewImg.style.display = 'none'; // Hide if no image is selected
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update User</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f4f9;
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+            color: #333;
+            margin-top: 50px;
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .form-box {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .avatar-circle {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            font-size: 30px;
+            background-color: #007bff;
+            color: white;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+            background-color: #f9f9f9;
+            box-sizing: border-box;
+        }
+
+        input[readonly] {
+            background-color: #e9e9e9;
+        }
+
+        button {
+            background-color: #ff7f00;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #ff6600;
+        }
+
+        .button-container {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .SellBook a {
+            text-decoration: none;
+        }
+
+        .SellBook button {
+            background-color: #28a745;
+        }
+
+        .SellBook button:hover {
+            background-color: #218838;
+        }
+
+        .form-footer {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .form-footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Update Your Profile</h1>
+    <div class="form-container">
+        <div class="form-box">
+            <span class="avatar-circle">{{ r.Name | slice:":1"}}</span>
+            <form class="User" method="POST" id="User">
+                {% csrf_token %}
+                <label for="Name">Name:</label>
+                <input type="text" name="Name" id="Name" value="{{ r.Name }}" readonly required><br>
+
+                <label for="Email">Email:</label>
+                <input type="email" name="Email" id="Email" value="{{ r.Email }}" readonly><br>
+
+                <label for="Number">Phone Number:</label>
+                <input type="text" name="Number" id="Number" value="{{ r.Number }}" readonly><br>
+
+                <label for="Password">Password:</label>
+                <input type="text" name="Password" id="Password" value="{{ r.Password }}" readonly><br>
+
+                <div class="button-container">
+                    <button type="button" id="button" onclick="Editing()">Edit</button>
+                    <button type="submit" id="saveButton" style="display: none;">Save</button>
+                </div>
+                    <p><a href="/Go_Back">Cancel</a></p>
+
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function Editing() {
+            const user = document.querySelectorAll("#User input");
+            user.forEach(element => {
+                element.removeAttribute('readonly');
+            });
+            document.getElementById("button").style.display = 'none';
+            document.getElementById("saveButton").style.display = 'inline-block';
+        }
+    </script>
+</body>
+</html>

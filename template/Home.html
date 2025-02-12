@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <title>Purchase Book</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f3f4f7, #a6b8d4);
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-top: 40px;
+            font-size: 36px;
+            font-weight: bold;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .container-fluid {
+            padding-top: 30px;
+            padding-bottom: 30px;
+            display: block;
+            gap: 20px; /* Add horizontal gap between cards */
+            justify-content: center;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 10px;
+        }
+
+        .navbar form {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .navbar select, .navbar .Search input, .navbar .Search button {
+            padding: 8px 12px;
+            font-size: 16px;
+            border-radius: 25px;
+            border: none;
+        }
+
+        .Search-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .Glass {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        /* Sidebar Styles */
+        .Sidebar {
+            position: absolute;
+            left: 0;
+            height: 100%;
+            width: 0;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.7);
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 60px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .Sidebar a {
+            padding: 10px;
+            text-decoration: none;
+            font-size: 22px;
+            color: white;
+            display: block;
+            transition: 0.3s;
+            margin: 10px 0;
+        }
+
+        .Sidebar a:hover {
+            background-color: #575757;
+            color: #fff;
+        }
+
+        .Close {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            color: white;
+        }
+
+        .Open {
+            font-size: 20px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 25px;
+            width: 100px;
+            margin-left: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .Open:hover {
+            background-color: #0056b3;
+        }
+
+        /* Card Styles */
+        .card {
+            min-height:400px
+            height:100%;
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 300px;
+            object-fit: contain;
+            border-bottom: 2px solid #f1f1f1;
+        }
+
+        .card-body1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            flex-grow:1;
+            overflow:hidden;
+        }
+
+        .card-title {
+            font-size: 20px;
+            color: #333;
+            font-weight: bold;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            line-height: 1.2;
+        }
+
+        .card-text {
+            color: #777;
+            margin-bottom: 15px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .button1 {
+            background-color: #ffb84d;
+            height: 45px;
+            padding: 10px;
+            width: 100%;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            border: none;
+        }
+
+        .button1:hover {
+            background-color: #ffa500;
+            transform: scale(1.05);
+        }
+
+        .Heart {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            font-size: 30px;
+            padding: 12px;
+        }
+
+        .Heart_filled {
+            color: red;
+        }
+
+        .Heart_empty {
+            color: grey;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #343a40;
+            color: white;
+            width: 100%;
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 5px solid #007bff;
+        }
+
+        .footer h1 {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 30px;
+        }
+
+        .footer-links li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .footer-links a:hover {
+            color: #007bff;
+            text-decoration: underline;
+        }
+
+        .footer-bottom p {
+            font-size: 1rem;
+            margin: 5px 0;
+        }
+
+        .footer-bottom a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+
+        /* Social Icons */
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .footer .icon {
+            font-size: 30px;
+            color: #555;
+            transition: color 0.3s ease;
+        }
+
+        .footer .icon:hover {
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+    {% csrf_token %}
+    <h1><b>Book Purchase</b></h1>
+
+    <!-- Sidebar -->
+    <div class="Header">
+        <div class="Sidebar" id="Sidebar">
+            <a href="#" class="Close" onclick="Close()" id="Close"><ion-icon name="close-outline"></ion-icon></a>
+            <a href="/Update_User/{{ r.User_Id }}">My Profile</a><br>
+            <a href="/Home">Home</a><br>
+            <a href="/View_Wishlist">Wishlist</a><br>
+            <a href="/Ordered">My Order</a><br>
+            <a href="/View_Cart">My Cart</a><br>
+            <a href="{% url 'Logout' %}">Log Out</a>
+        </div>
+     </div>
+
+    <div class="Overlay" onclick="Close()" id="Overlay"></div>
+
+    <div class="navbar">
+        <button class="Open" onclick="Open()" style=style="width:50px;height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+        <ion-icon name="reorder-three-outline"></ion-icon>Menu</button><br><br>
+        <form method="POST">
+            {% csrf_token %}
+            <select id="Sort" name="Sort" onchange="this.form.submit()">
+                <option value="0">Sort</option>
+                <option value="name_asc" {% if Sort == 'name_asc' %}selected{% endif %}>Name(A-Z)</option>
+                <option value="name_desc" {% if Sort == 'name_desc' %}selected{% endif %}>Name(Z-A)</option>
+                <option value="cost_asc" {% if Sort == 'cost_asc' %}selected{% endif %}>Cost Low to High</option>
+                <option value="cost_desc" {% if Sort == 'cost_desc' %}selected{% endif %}>Cost by High to Low</option>
+            </select>
+           <div class="Search-container">
+                <input type="text" name="Search" id="Search" placeholder="Search...." required>
+                <button type="submit" name="Glass" id="Glass">Search</button>
+           </div>
+        </form>
+    </div>
+
+    {% if Error %}
+        {{ Error }}
+    {% endif %}
+
+    <div id="main">
+        <div class="container-fluid">
+            <div class="row">
+                {% for i in book %}
+                    <div class="col-md-3">
+                        <div class="card">
+                           <div class="Heart">
+                                {% if i.Heart %}
+                                    <a href="{% url 'Remove_Wishlist' id=i.Id %}"><ion-icon name="heart" class="Heart_filled"></ion-icon></a>
+                                {% else %}
+                                    <a href="{% url 'Add_Wishlist' id=i.Id %}"><ion-icon name="heart-outline" class="Heart_empty"></ion-icon></a>
+                                {% endif %}
+                           </div>
+                            <img src="{{ i.Image.url }}" alt="{{ i.Image.url }}" class="card-img-top">
+                            <div class="card-body1">
+                                <h4 class="card-title">{{ i.Name }}</h4>
+                                <h5 style="color:black;">Rs.{{ i.Price }}/-</h5>
+                                <p class="card-text">{{ i.Author }}</p>
+                                <button type="button" class="button1"><a href="/more info/{{ i.Id }}" style="color:black;"><b>More Info</b></a></button><br><br>
+                                <button type="button" class="button1"><a href="{% url 'Add_Cart' id=i.Id %}" style="color:black;"><b>Add to Cart</b></a></button>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <h1>Book Purchase</h1>
+        <ul class="footer-links">
+            <li><a href="/Home">Home</a></li>
+            <li><a href="/Update_User/{{ r.User_Id }}">My Profile</a></li>
+            <li><a href="/View_Wishlist">Wishlist</a></li>
+            <li><a href="/Ordered">My Order</a></li>
+            <a href="/View_Cart">My Cart</a>
+            <li><a href="Logout">Log Out</a></li>
+        </ul>
+        <div class="social-icons">
+            <ion-icon name="logo-facebook"></ion-icon>
+            <ion-icon name="logo-google"></ion-icon>
+            <ion-icon name="mail-open-sharp"></ion-icon>
+            <ion-icon name="logo-youtube"></ion-icon>
+            <ion-icon name="logo-instagram"></ion-icon>
+            <ion-icon name="logo-linkedin"></ion-icon>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Book Purchase.<br> All Rights Reserved.</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </div>
+
+<script>
+    // Sidebar functions
+    function Open() {
+        document.getElementById("Sidebar").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+        document.getElementById("Overlay").style.display = "block";
+    }
+
+    function Close() {
+        document.getElementById("Sidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        document.getElementById("Overlay").style.display = "none";
+    }
+</script>
+</body>
+</html>

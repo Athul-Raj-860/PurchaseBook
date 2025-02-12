@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Book</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-family: 'Times New Roman', Times, serif;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #FF7043;
+        }
+
+        .BookAdd {
+            background-color: #424242;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        label {
+            font-size: 14px;
+            color: #FF7043;
+        }
+
+        input[type="text"], input[type="date"], textarea, input[type="file"] {
+            padding: 10px;
+            background-color: #333;
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        input[type="file"] {
+            padding: 5px;
+        }
+
+        button {
+            background-color: #FF7043;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #FF5722;
+            transform: scale(1.1);
+        }
+
+        .Preview {
+            text-align: center;
+        }
+
+        .Preview img {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 10px;
+            object-fit: cover;
+            display: block;
+            margin-top: 10px;
+        }
+
+
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Update Book Details</h1>
+
+    <div class="BookAdd">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="Name">Book Name:</label>
+            <input type="text" name="Name" id="Name" value="{{ t.Name }}" size="20px">
+
+            <label for="Author">Author:</label>
+            <input type="text" name="Author" id="Author" value="{{ t.Author }}" size="20px">
+
+            <label for="Price">Price:</label>
+            <input type="text" name="Price" id="Price" value="{{ t.Price }}" size="20px">
+
+            <label for="Description">Book Description:</label>
+            <textarea name="Description" id="Description" style="height: 50px;">{{ t.Description }}</textarea>
+
+            <label for="Edition">Edition:</label>
+            <input type="text" name="Edition" id="Edition" value="{{ t.Edition }}" size="20px">
+
+            <label for="Publisher">Publisher:</label>
+            <input type="text" name="Publisher" id="Publisher" value="{{ t.Publisher }}" size="20px">
+
+            <label for="Published">Published On:</label>
+            <input type="date" name="Published" id="Published" value="{{ t.Published|date:'Y-m-d' }}">
+
+            <label for="Language">Language:</label>
+            <input type="text" name="Language" id="Language" value="{{ t.Language }}" size="20px">
+
+            <label for="Pages">Pages:</label>
+            <input type="text" name="Pages" id="Pages" value="{{ t.Pages }}" size="20px">
+
+            <label for="Image">Book Image:</label>
+            <input type="file" name="Image" accept="image/*" id="Image" >
+
+            <div class="Preview">
+                <span>Preview Image:</span><br>
+                <img src="{{ t.Image.url }}" id="output" alt="Book Image">
+            </div>
+
+            <button type="submit">Update</button>
+        </form>
+    </div>
+
+    <script>
+        const imageUpload = document.getElementById('Image');
+        const previewImg = document.getElementById('output');
+
+        imageUpload.addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImg.src = e.target.result; // Set the image source to the file content
+                    previewImg.style.display = 'block'; // Show the preview image
+                };
+                reader.readAsDataURL(file); // Read the file as a data URL
+            } else {
+                previewImg.style.display = 'none'; // Hide if no image is selected
+            }
+        });
+    </script>
+</body>
+</html>
