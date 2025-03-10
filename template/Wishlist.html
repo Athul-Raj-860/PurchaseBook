@@ -10,144 +10,303 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <title>Cart Book</title>
     <style>
+        /* General Styles */
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #f7f7f7;
-        }
-        h1 {
-            text-align: center;
-            color: #007bff;
-            margin-bottom: 30px;
-            font-weight: 600;
-        }
-        .row {
-            margin-top: 20px;
-        }
-        .card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
-        }
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-        }
-        .card-img-top {
-            border-radius: 12px 12px 0 0;
-            object-fit: contain;
-            height: 250px;
-        }
-        .card-body1 {
-            padding: 20px;
-            background-color: white;
-            border-radius: 0 0 12px 12px;
-        }
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-family: 'Roboto', sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
             color: #333;
         }
-        .card-text {
-            font-size: 0.9rem;
-            color: #777;
+
+        h1 {
+            text-align: center;
+            color: #003087;
+            margin: 30px 0;
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
-        .card-price {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #28a745;
+
+        .container-fluid {
+            padding: 40px 20px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
-        .button1 {
-            background-color: #f0ad4e;
-            border: none;
-            padding: 10px 20px;
-            font-size: 14px;
+
+        /* Navbar Styles */
+        .navbar {
+            background-color: #003087;
+            padding: 15px 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .navbar form {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-grow: 1;
+            justify-content: flex-end;
+        }
+
+        .navbar select,
+        .navbar .Search-container input,
+        .navbar .Search-container button {
+            padding: 8px 16px;
+            font-size: 0.95rem;
             border-radius: 25px;
-            width: 100%;
-            text-align: center;
-            transition: background-color 0.3s ease;
+            border: none;
+            outline: none;
+            transition: all 0.3s ease;
         }
-        .button1:hover {
-            background-color: #e68900;
-            color: white;
+
+        .navbar select {
+            background-color: #fff;
+            color: #333;
+            min-width: 150px;
         }
-        a {
-            text-decoration: none;
-            color: inherit;
+
+        .Search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
         }
-        .message {
-            color: #007bff;
-            font-size: 1rem;
-            text-align: center;
-            margin-top: 20px;
+
+        .navbar .Search-container input {
+            padding-right: 40px;
+            width: 300px;
+            background-color: #fff;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
         }
-          .Sidebar {
+
+        .navbar .Search-container button {
             position: absolute;
+            right: 5px;
+            background-color: #ff8c00;
+            color: white;
+            padding: 6px 12px;
+        }
+
+        .navbar .Search-container button:hover {
+            background-color: #e07b00;
+        }
+
+        /* Sidebar Styles */
+        .Sidebar {
+            position: fixed;
             left: 0;
+            top: 0;
             height: 100%;
             width: 0;
-            z-index: 1;
-            background-color: #333;
+            background-color: #212529;
             overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-            text-align: center;
+            transition: width 0.4s ease;
+            padding-top: 70px;
+            z-index: 1000;
         }
 
         .Sidebar a {
-            padding: 8px 8px 8px 32px;
+            padding: 12px 20px;
             text-decoration: none;
-            font-size: 22px;
-            color: white;
+            font-size: 1.1rem;
+            color: #fff;
             display: block;
-            transition: 0.3s;
-            margin: 10px 0;
+            transition: background-color 0.3s ease;
         }
 
         .Sidebar a:hover {
-            background-color: #575757;
-            color: #fff;
+            background-color: #343a40;
         }
 
         .Close {
             position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            color: white;
+            top: 15px;
+            right: 15px;
+            font-size: 1.8rem;
+            color: #fff;
+            cursor: pointer;
         }
 
         .Open {
-            font-size: 20px;
-            cursor: pointer;
-            background-color: #007bff;
+            background-color: #003087;
             color: white;
-            padding: 12px 20px;
+            padding: 8px 16px;
             border: none;
             border-radius: 25px;
-            width: 100px;
-            margin-left: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            font-weight: 500;
             transition: background-color 0.3s ease;
         }
 
         .Open:hover {
-            background-color: #0056b3;
+            background-color: #00205b;
         }
-        p{
 
+        /* Card Styles */
+        .card {
+            min-height: 480px;
             border: none;
-            border-radius: 12px;
-            text-align:center;
-            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease-in-out;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 220px;
+            object-fit: contain;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .card-body1 {
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: #212529;
+            font-weight: 600;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-price {
+            color: #003087;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .card-text {
+            color: #6c757d;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .button1 {
+            background-color: #ff8c00;
+            color: #fff;
+            padding: 10px;
+            width: 100%;
+            border-radius: 25px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border: none;
+            transition: background-color 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .button1 a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .button1:hover {
+            background-color: #e07b00;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #212529;
+            color: #fff;
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 3px solid #003087;
+        }
+
+        .footer h1 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 25px;
+        }
+
+        .footer-links li {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #ff8c00;
+        }
+
+        .social-icons ion-icon {
+            font-size: 1.6rem;
+            color: #adb5bd;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons ion-icon:hover {
+            color: #ff8c00;
+        }
+
+        .footer-bottom p {
+            font-size: 0.85rem;
+            margin: 5px 0;
+            color: #adb5bd;
+        }
+
+        .footer-bottom a {
+            color: #ff8c00;
+            text-decoration: none;
+        }
+
+        .footer-bottom a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .navbar form {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .navbar .Search-container input {
+                width: 100%;
+            }
+
 
         }
     </style>
 </head>
 <body>
     {% csrf_token %}
-
+    <h1><b>Wishlist Book</b></h1>
      <div class="Header">
         <div class="Sidebar" id="Sidebar">
             <a href="#" class="Close" onclick="Close()" id="Close"><ion-icon name="close-outline"></ion-icon></a>
@@ -161,9 +320,27 @@
     </div>
 
     <div class="Overlay" onclick="Close()" id="Overlay"></div>
+      <div class="navbar">
+        <button class="Open" onclick="Open()" style=style="width:50px;height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+        <ion-icon name="reorder-three-outline"></ion-icon>Menu</button><br><br>
+        <form method="POST">
+            {% csrf_token %}
+            <select id="Sort" name="Sort" onchange="this.form.submit()">
+                <option value="0">Sort</option>
+                <option value="name_asc" {% if Sort == 'name_asc' %}selected{% endif %}>Name(A-Z)</option>
+                <option value="name_desc" {% if Sort == 'name_desc' %}selected{% endif %}>Name(Z-A)</option>
+                <option value="cost_asc" {% if Sort == 'cost_asc' %}selected{% endif %}>Cost Low to High</option>
+                <option value="cost_desc" {% if Sort == 'cost_desc' %}selected{% endif %}>Cost by High to Low</option>
+            </select>
+           <div class="Search-container">
+                <input type="text" name="Search" id="Search" placeholder="Search...." required>
+                <button type="submit" name="Glass" id="Glass">Search</button>
+           </div>
+        </form>
+    </div>
     <div class="main">
-        <h1><b>Wishlist Book</b></h1>
-        <button class="Open" onclick="Open()"><ion-icon name="reorder-three-outline"></ion-icon> Menu</button><br><br>
+
+
     <div class="container">
         <div class="row">
 
@@ -193,6 +370,30 @@
         {% endif %}
     </div>
    </div>
+        <div class="footer">
+        <h1>Book Purchase</h1>
+        <ul class="footer-links">
+            <li><a href="/Home">Home</a></li>
+            <li><a href="/Update_User/{{ r.User_Id }}">My Profile</a></li>
+            <li><a href="/View_Wishlist">Wishlist</a></li>
+            <li><a href="/Ordered">My Order</a></li>
+            <a href="/View_Cart">My Cart</a>
+            <li><a href="Logout">Log Out</a></li>
+        </ul>
+        <div class="social-icons">
+            <ion-icon name="logo-facebook"></ion-icon>
+            <ion-icon name="logo-google"></ion-icon>
+            <ion-icon name="mail-open-sharp"></ion-icon>
+            <ion-icon name="logo-youtube"></ion-icon>
+            <ion-icon name="logo-instagram"></ion-icon>
+            <ion-icon name="logo-linkedin"></ion-icon>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2025 Book Purchase.<br> All Rights Reserved.</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </div>
 <script>
       function Open() {
         document.getElementById("Sidebar").style.width = "250px";
