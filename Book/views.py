@@ -1,4 +1,5 @@
 
+
 from datetime import datetime
 from pyexpat.errors import messages
 
@@ -6,6 +7,39 @@ from django.shortcuts import render, redirect
 
 from .models import Book, Register, Cart, Wishlist, Billing, Payment
 
+def Login(request):
+    if request.method == "POST":
+            Username = request.POST.get('Username')
+            Password = request.POST.get('Password')
+            try:
+                user = Register.objects.get(Username=Username, Password=Password)
+                request.session["User_Id"] = user.User_Id
+                if user.Category == 1:
+                     return redirect("Home")
+                else:
+                     return redirect("Merchant")
+            except Register.DoesNotExist:
+                return render(request, "Login.html", {"Error": "Invalid Username or Password"})
+
+    return render(request, "Login.html")
+
+def Forgot(request):
+    if request.method == "POST":
+        Email = request.POST.get('Email')
+        Password = request.POST.get('Password')
+        ConfirmPassword = request.POST.get('Password1')
+        try:
+            user = Register.objects.get(Email=Email)
+            if Password == ConfirmPassword:
+                user.Password = Password
+                user.save()
+                return redirect("Login")
+            else:
+                return render(request,"Forgot.html",{"Error":"Password Doesnot Match"})
+
+        except Register.DoesNotExist:
+            return render(request,"Forgot.html",{"Error":"Email Doesnot Exist"})
+    return render(request,"Forgot.html")
 
 def Add_Book(request):
     if request.method == "POST" and request.FILES['Image'] and "User_Id" in request.session:
@@ -128,41 +162,6 @@ def Sign_Up(request):
     return render(request,"SignUp.html")
 
 
-
-def Login(request):
-    if request.method == "POST":
-            Username = request.POST.get('Username')
-            Password = request.POST.get('Password')
-            try:
-                user = Register.objects.get(Username=Username, Password=Password)
-                request.session["User_Id"] = user.User_Id
-                if user.Category == 1:
-                     return redirect("Home")
-                else:
-                     return redirect("Merchant")
-            except Register.DoesNotExist:
-                return render(request, "Login.html", {"Error": "Invalid Username or Password"})
-
-    return render(request, "Login.html")
-
-def Forgot(request):
-    if request.method == "POST":
-        Email = request.POST.get('Email')
-        Password = request.POST.get('Password')
-        ConfirmPassword = request.POST.get('Password1')
-        try:
-            user = Register.objects.get(Email=Email)
-            if Password == ConfirmPassword:
-                user.Password = Password
-                user.save()
-                return redirect("Login")
-            else:
-                return render(request,"Forgot.html",{"Error":"Password Doesnot Match"})
-
-        except Register.DoesNotExist:
-            return render(request,"Forgot.html",{"Error":"Email Doesnot Exist"})
-    return render(request,"Forgot.html")
-
 def Logout(request):
     if "User_Id" in request.session:
       del request.session["User_Id"]
@@ -189,6 +188,7 @@ def Add_Cart(request,id):
 def View_Cart(request):
     if "User_Id" in request.session:
         user_id = request.session["User_Id"]
+        r = Register.objects.get(User_Id=user_id)
         y = Cart.objects.filter(User=user_id)
         total = 0
 
@@ -197,7 +197,7 @@ def View_Cart(request):
             return render(request, "Cart.html", {'message': 'Your cart is empty.'})
         for i in y:
             total = total + i.Book.Price
-        return render(request, "Cart.html", {'book': y,'total':total})
+        return render(request, "Cart.html", {'book': y,'total':total,'r':r})
 
 def Remove_Cart(request,id):
     if "User_Id" in request.session:
@@ -220,11 +220,12 @@ def Add_Wishlist(request,id):
 def View_Wishlist(request):
     if "User_Id" in request.session:
         user_id = request.session["User_Id"]
+        r = Register.objects.get(User_Id=user_id)
         y = Wishlist.objects.filter(User=user_id)
         if not y:
             print("No cart items found for this user.")
             return render(request, "Wishlist.html", {'message': 'Your Wishlist is empty.'})
-        return render(request, "Wishlist.html", {'book': y})
+        return render(request, "Wishlist.html", {'book': y,'r':r})
 
 def Remove_Wishlist(request, id):
     if "User_Id" in request.session:
@@ -278,18 +279,15 @@ def Book_Payment(request,id):
 
     return render(request, 'BookPayment.html',{'book': book })
 
-
-
-
-
 def View_Order(request):
     if "User_Id" in request.session:
         user_id = request.session["User_Id"]
+        r = Register.objects.get(User_Id=user_id)
         y = Billing.objects.filter(User=user_id)
         if not y:
             print("No  items ordered by the user.")
             return render(request, "Ordered.html", {'message': 'Your Order is empty.'})
-        return render(request, "Ordered.html", {'book': y})
+        return render(request, "Ordered.html", {'book': y,'r':r})
 
 def Merchant(request):
     if "User_Id" in request.session:
